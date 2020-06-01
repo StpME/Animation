@@ -14,6 +14,8 @@ public class Main extends PApplet
 	// Declare any private fields you need to help keep track of
 	// stuff while your masterpiece animates itself
 	private int delay;
+	private int angle;
+	private float stepSize;
 	public static void main(String[] args) 
 	{
 		
@@ -45,6 +47,8 @@ public class Main extends PApplet
 	public void setup()
 	{
 		this.delay = 0;
+		this.angle = 450;
+		this.stepSize = (float) 0.025;
 	}
 	
 	//gives random num from 0-255
@@ -60,6 +64,8 @@ public class Main extends PApplet
 	// This gets called over and over again, once for each animation frame
 	public void draw() 
 	{
+		float x = g.width / 2;
+		float y = g.height / 2;
 		int num = randomNum();
 		
 		
@@ -78,8 +84,25 @@ public class Main extends PApplet
 		
 		
 		
-		
-		
+		g.pushMatrix();
+		g.translate(x, y);
+		for (float step = 0; step <= 200; step += stepSize)
+		{
+			// Rotate what we're about to draw by one more angle subdivision
+			g.rotate(angle);
+
+			// Each square drawn with a random color
+			g.stroke((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
+			
+			// Finally, draw the square.  Since we moved 0,0 to be the
+			// center of the window,
+			g.rect(
+					-step,		// upper-left x
+					-step,		// upper-left y
+					step * 2, 	// width
+					step * 2 	// height
+					);
+		}
 		//sets stroke speed 
 		if(delay == 10)
 		{
@@ -91,7 +114,6 @@ public class Main extends PApplet
 		{
 			delay++;
 		}
-		//g.stroke(0,0,0);
 		g.rect(150, 150, 324, 124);
 	}
 }
