@@ -39,8 +39,8 @@ public class Main extends PApplet
 	public void settings() 
 	{
 		// These numbers decide how big the window is.
-		// You can change these if you don't like the size!
-		size(640, 360);
+		// You can change these if you don't like the size
+		size(1080, 720);
 	}
 	
 	// Do any one-time initialization here, like initializing fields
@@ -60,6 +60,11 @@ public class Main extends PApplet
 		return num;
 	}
 	
+	public void randomColorScheme(int value)
+	{
+		//if(value)
+	}
+	
 	
 	// This gets called over and over again, once for each animation frame
 	public void draw() 
@@ -69,9 +74,9 @@ public class Main extends PApplet
 		int num = randomNum();
 		
 		
-		if(num == 1)
+		if(num <= 100)
 		{ 
-			
+			g.background(0 /* red */ , 0 /* green */, 0 /* blue */);
 		}
 		// Typically, you'll do something like this to clear the
 		// screen before drawing your frame.  Feel free to change
@@ -84,36 +89,38 @@ public class Main extends PApplet
 		
 		
 		
-		g.pushMatrix();
+		//g.pushMatrix();
 		g.translate(x, y);
-		for (float step = 0; step <= 200; step += stepSize)
+		for (float step = 0; step <=150; step += stepSize)
 		{
 			// Rotate what we're about to draw by one more angle subdivision
-			g.rotate(angle);
+			g.rotate(100);
 
-			// Each square drawn with a random color
-			g.stroke((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
+			// Each square drawn with a random color (use for testing only)
+			//g.stroke((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
 			
-			// Finally, draw the square.  Since we moved 0,0 to be the
-			// center of the window,
+			// Finally, draw the square.
 			g.rect(
-					-step,		// upper-left x
-					-step,		// upper-left y
+					step,		// upper-left x
+					step,		// upper-left y
 					step * 2, 	// width
 					step * 2 	// height
 					);
+			//sets stroke speed 
+			if(delay == 150)
+			{
+				g.stroke(randomNum(),randomNum(),randomNum());
+				System.out.println("w" + delay);
+				delay = 0;
+				
+			}
+			else
+			{
+				delay++;
+				System.out.println("L" + delay);
+			}
 		}
-		//sets stroke speed 
-		if(delay == 10)
-		{
-			g.stroke(randomNum(),randomNum(),randomNum());
-			delay = 0;
-			System.out.println("w");
-		}
-		else
-		{
-			delay++;
-		}
+		
 		g.rect(150, 150, 324, 124);
 	}
 }
