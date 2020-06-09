@@ -16,6 +16,8 @@ public class Main extends PApplet
 	private int delay;
 	private int angle;
 	private float stepSize;
+	private int delay2;
+	private boolean bounce;
 	public static void main(String[] args) 
 	{
 		
@@ -41,28 +43,54 @@ public class Main extends PApplet
 		// These numbers decide how big the window is.
 		// You can change these if you don't like the size
 		size(1080, 720);
+		
 	}
 	
 	// Do any one-time initialization here, like initializing fields
 	public void setup()
 	{
 		this.delay = 0;
-		this.angle = 450;
-		this.stepSize = (float) 0.025;
+		this.delay2=0;
+		this.angle = 75;
+		this.stepSize = (float) 0.150;
+		g.fill = false;
+		this.bounce = false;
 	}
 	
 	//gives random num from 0-255
 	public int randomNum()
 	{
 		int num = 0;
-		num  = (int)(Math.random() * 256);
+		num  = (int)(Math.random() * 150);
 		//System.out.println(num);
+		return num;
+	}
+	public int simpleNum()
+	{
+		int num = 1;
+		num  = (int)(Math.random() * 4);
+		System.out.println(num);
 		return num;
 	}
 	
 	public void randomColorScheme(int value)
 	{
-		//if(value)
+		if(value == 0)
+		{
+			g.stroke(0,0,0);
+		}
+		else if(value==1)
+		{
+			g.stroke(0,0,randomNum());
+		}
+		else if (value==2)
+		{
+			g.stroke(0,randomNum(),0);
+		}
+		else if (value==3)
+		{
+			g.stroke(randomNum(),0,0);
+		}
 	}
 	
 	
@@ -73,15 +101,10 @@ public class Main extends PApplet
 		float y = g.height / 2;
 		int num = randomNum();
 		
-		
-		if(num <= 100)
-		{ 
-			g.background(0 /* red */ , 0 /* green */, 0 /* blue */);
-		}
 		// Typically, you'll do something like this to clear the
 		// screen before drawing your frame.  Feel free to change
 		// the color.
-		g.background(255 /* red */ , 255 /* green */, 255 /* blue */);
+		g.background(245  , 245 , 245 );
 
 		// Then call methods on g to draw stuff.  This is just an example,
 		// feel free to remove.  See the links at the top of this file
@@ -94,8 +117,8 @@ public class Main extends PApplet
 		for (float step = 0; step <=150; step += stepSize)
 		{
 			// Rotate what we're about to draw by one more angle subdivision
-			g.rotate(100);
-
+			
+			
 			// Each square drawn with a random color (use for testing only)
 			//g.stroke((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
 			
@@ -107,20 +130,59 @@ public class Main extends PApplet
 					step * 2 	// height
 					);
 			//sets stroke speed 
-			if(delay == 150)
+			if(delay == 2500)
 			{
-				g.stroke(randomNum(),randomNum(),randomNum());
-				System.out.println("w" + delay);
+				
+				//System.out.println("w" + delay);
 				delay = 0;
+				
+				if(angle!=1000)
+				{
+					angle+=1;
+				}
+				else
+				{
+					angle-=500;
+				}
 				
 			}
 			else
 			{
+				g.rotate(angle);
 				delay++;
-				System.out.println("L" + delay);
+				//System.out.println("L" + delay);
+			}
+			
+			//g.rotate(angle);
+			
+			//less bright colors
+			if(delay2 == 5000)
+			{
+				randomColorScheme(simpleNum());
+				delay2=0;
+			}
+			else
+			{
+				delay2++;
 			}
 		}
 		
-		g.rect(150, 150, 324, 124);
+		if (bounce)
+		{
+			stepSize += 0.01;
+		}
+		else
+		{
+			stepSize -= 0.01;
+		}
+		
+		// This decides if we need to bounce.  Once stepSize
+		// has gotten small enough or large enough, flip stepUp
+		if (stepSize < 0.1|| stepSize > 5)
+		{
+			bounce = !bounce;
+		}
+		g.pushMatrix();
+		g.popMatrix();
 	}
 }
