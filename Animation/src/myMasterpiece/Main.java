@@ -17,6 +17,7 @@ public class Main extends PApplet
 	private int angle;
 	private float stepSize;
 	private int delay2;
+	private int delay3;
 	private boolean bounce;
 	public static void main(String[] args) 
 	{
@@ -51,9 +52,10 @@ public class Main extends PApplet
 	{
 		this.delay = 0;
 		this.delay2=0;
+		this.delay3=0;
 		this.angle = 75;
 		this.stepSize = (float) 0.150;
-		g.fill = false;
+		//g.fill = true;
 		this.bounce = false;
 	}
 	
@@ -68,7 +70,7 @@ public class Main extends PApplet
 	public int simpleNum()
 	{
 		int num = 1;
-		num  = (int)(Math.random() * 4);
+		num  = (int)(Math.random() * 7);
 		System.out.println(num);
 		return num;
 	}
@@ -90,6 +92,18 @@ public class Main extends PApplet
 		else if (value==3)
 		{
 			g.stroke(randomNum(),0,0);
+		}
+		else if (value==4)
+		{
+			g.stroke(randomNum(),randomNum(),0);
+		}
+		else if (value==5)
+		{
+			g.stroke(0,randomNum(),randomNum());
+		}
+		else if (value==6)
+		{
+			g.stroke(randomNum(),randomNum(),randomNum());
 		}
 	}
 	
@@ -142,7 +156,7 @@ public class Main extends PApplet
 				}
 				else
 				{
-					angle-=500;
+					angle-=1;
 				}
 				
 			}
@@ -165,23 +179,30 @@ public class Main extends PApplet
 			{
 				delay2++;
 			}
+			
 		}
 		
 		if (bounce)
 		{
 			stepSize += 0.01;
+			g.fill=false;
 		}
 		else
 		{
 			stepSize -= 0.01;
+			g.fill=true;
+			//System.out.println("wwwww");
 		}
 		
-		// This decides if we need to bounce.  Once stepSize
-		// has gotten small enough or large enough, flip stepUp
+		
+		
 		if (stepSize < 0.1|| stepSize > 5)
 		{
 			bounce = !bounce;
+			
 		}
+		
+		
 		g.pushMatrix();
 		g.popMatrix();
 	}
